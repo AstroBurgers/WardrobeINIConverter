@@ -15,20 +15,20 @@ I am not responsible for any issues or damage to your game files. Use at your ow
 
 Tested on a synthetic `wardrobe.ini` with **1 million entries** on a Ryzen 5600 6-core OC @ 4.4 GHz:
 
-| Run        | Time (ms)  |
-| ---------- | ---------- |
-| 1          | 3618       |
-| 2          | 3875       |
-| 3          | 3666       |
-| 4          | 3904       |
-| 5          | 3586       |
-| 6          | 3588       |
-| 7          | 3578       |
-| 8          | 3786       |
-| 9          | 3839       |
-| 10         | 3762       |
-| **Median** | **3714**   |
-| **Mean**   | **3720.2** |
+| Run        | Time (s) |
+| ---------- | -------- |
+| 1          | 2.80     |
+| 2          | 2.83     |
+| 3          | 2.88     |
+| 4          | 2.93     |
+| 5          | 2.82     |
+| 6          | 2.72     |
+| 7          | 2.78     |
+| 8          | 2.64     |
+| 9          | 2.72     |
+| 10         | 2.90     |
+| **Median** | **2.81** |
+| **Mean**   | **2.80** |
 ---
 *What does this mean in layman's terms?*</br>
 **On a regular Wardrobe.ini file it runs *literally* faster than you can blink (in testing, 3.6ms)**
