@@ -1,4 +1,4 @@
-﻿// structs.rs
+// structs.rs
 #[derive(Clone)]
 pub struct CompCombo {
     pub comp_name: String,

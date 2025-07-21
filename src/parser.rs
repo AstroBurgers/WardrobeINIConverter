@@ -1,8 +1,8 @@
-﻿use std::fs::File;
+use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-use rayon::prelude::*;
 use crate::structs::*;
+use rayon::prelude::*;
 
 pub fn parse_file(file_path: &str) -> Vec<Entry> {
     println!("Initializing parser...");
@@ -32,8 +32,12 @@ fn chunk_sections<R: BufRead>(reader: R) -> Vec<Vec<String>> {
             Err(_) => continue,
         };
 
-        let trimmed = line.trim();  
-        if trimmed.len() > 1 && trimmed.starts_with('[') && trimmed.ends_with(']') && !current_section.is_empty() {
+        let trimmed = line.trim();
+        if trimmed.len() > 1
+            && trimmed.starts_with('[')
+            && trimmed.ends_with(']')
+            && !current_section.is_empty()
+        {
             sections.push(std::mem::take(&mut current_section));
         }
 
@@ -73,7 +77,9 @@ fn parse_entry(lines: &[String]) -> Entry {
             continue;
         }
 
-        let Some((id_str, tex_str)) = value_str.split_once(':') else { continue };
+        let Some((id_str, tex_str)) = value_str.split_once(':') else {
+            continue;
+        };
         if let (Some(id), Some(tex)) = (try_parse_int(id_str), try_parse_int(tex_str)) {
             combo_buffer.push(CompCombo {
                 comp_name: intern_comp_name(comp_name_str),
@@ -97,10 +103,8 @@ fn try_parse_int(s: &str) -> Option<i32> {
 fn intern_comp_name(name: &str) -> String {
     // Could be further optimized with `phf` or `once_cell` interning
     match name.to_ascii_lowercase().as_str() {
-        "hat" | "shoes" | "top" | "pants" | "armor" |
-        "undercoat" | "accessories" | "mask" |
-        "upperskin" | "parachute" | "decal" |
-        "ear" | "glasses" => name.to_string(),
+        "hat" | "shoes" | "top" | "pants" | "armor" | "undercoat" | "accessories" | "mask"
+        | "upperskin" | "parachute" | "decal" | "ear" | "glasses" => name.to_string(),
         _ => name.to_string(),
     }
 }

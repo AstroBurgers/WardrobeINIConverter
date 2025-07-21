@@ -1,6 +1,6 @@
-﻿use std::fs::File;
-use std::io::{BufWriter, Write};
 use crate::structs::*;
+use std::fs::File;
+use std::io::{BufWriter, Write};
 
 pub fn convert(entries: Vec<Entry>) {
     println!("Converting outfits...");
@@ -11,7 +11,7 @@ pub fn convert(entries: Vec<Entry>) {
         (100 / entries.len()).max(1)
     };
 
-    let file = File::create("C:/Users/silas/OneDrive/Desktop/Projects/WardrobeINIConverter/target/debug/WardrobeINIConverter/ConvertedLines.txt")
+    let file = File::create("WardrobeINIConverter/ConvertedLines.txt")
         .expect("Failed to create output file");
     let mut writer = BufWriter::with_capacity(65536, file);
 
@@ -31,7 +31,11 @@ pub fn convert(entries: Vec<Entry>) {
         let mut parachute_set = CompCombo::default();
 
         for combo in &entry.combos {
-            let CompCombo { comp_name, comp_id, comp_tex } = combo;
+            let CompCombo {
+                comp_name,
+                comp_id,
+                comp_tex,
+            } = combo;
             match comp_name.as_str() {
                 "Glasses" => {
                     glasses_set.comp_id = *comp_id;
@@ -96,7 +100,9 @@ pub fn convert(entries: Vec<Entry>) {
             "MP_F_FREEMODE_01"
         };
 
-        writeln!(writer, "<!-- {} --> <Ped chance=\"{}\" \
+        writeln!(
+            writer,
+            "<!-- {} --> <Ped chance=\"{}\" \
             prop_glasses=\"{}\" tex_glasses=\"{}\" \
             prop_hats=\"{}\" tex_hats=\"{}\" \
             prop_ears=\"{}\" tex_ears=\"{}\" \
@@ -110,23 +116,37 @@ pub fn convert(entries: Vec<Entry>) {
             comp_eyes=\"{}\" tex_eyes=\"{}\" \
             comp_tasks=\"{}\" tex_tasks=\"{}\" \
             comp_hands=\"{}\" tex_hands=\"{}\">{}</Ped>",
-                 outfit_comment,
-                 outfit_chance,
-                 glasses_set.comp_id, glasses_set.comp_tex,
-                 hat_set.comp_id, hat_set.comp_tex,
-                 ear_set.comp_id, ear_set.comp_tex,
-                 beard_set.comp_id, beard_set.comp_tex,
-                 shirt_set.comp_id, shirt_set.comp_tex,
-                 upper_skin_set.comp_id, upper_skin_set.comp_tex,
-                 decal_set.comp_id, decal_set.comp_tex,
-                 undercoat_set.comp_id, undercoat_set.comp_tex,
-                 pants_set.comp_id, pants_set.comp_tex,
-                 shoes_set.comp_id, shoes_set.comp_tex,
-                 accessory_set.comp_id, accessory_set.comp_tex,
-                 vest_set.comp_id, vest_set.comp_tex,
-                 parachute_set.comp_id, parachute_set.comp_tex,
-                 gender
-        ).expect("Failed to write to file");
+            outfit_comment,
+            outfit_chance,
+            glasses_set.comp_id,
+            glasses_set.comp_tex,
+            hat_set.comp_id,
+            hat_set.comp_tex,
+            ear_set.comp_id,
+            ear_set.comp_tex,
+            beard_set.comp_id,
+            beard_set.comp_tex,
+            shirt_set.comp_id,
+            shirt_set.comp_tex,
+            upper_skin_set.comp_id,
+            upper_skin_set.comp_tex,
+            decal_set.comp_id,
+            decal_set.comp_tex,
+            undercoat_set.comp_id,
+            undercoat_set.comp_tex,
+            pants_set.comp_id,
+            pants_set.comp_tex,
+            shoes_set.comp_id,
+            shoes_set.comp_tex,
+            accessory_set.comp_id,
+            accessory_set.comp_tex,
+            vest_set.comp_id,
+            vest_set.comp_tex,
+            parachute_set.comp_id,
+            parachute_set.comp_tex,
+            gender
+        )
+        .expect("Failed to write to file");
     }
 
     println!("Finished converting and writing to file.");
