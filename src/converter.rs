@@ -36,7 +36,7 @@ pub fn convert(entries: Vec<Entry>) {
                 comp_id,
                 comp_tex,
             } = combo;
-            match comp_name.as_str() {
+            match *comp_name {
                 "Glasses" => {
                     glasses_set.comp_id = *comp_id;
                     glasses_set.comp_tex = *comp_tex;

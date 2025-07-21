@@ -3,6 +3,10 @@ use std::io::{BufRead, BufReader};
 
 use crate::structs::*;
 use rayon::prelude::*;
+use once_cell::sync::Lazy;
+use dashmap::DashMap;
+
+static INTERNED_NAMES: Lazy<DashMap<String, &'static str>> = Lazy::new(DashMap::new);
 
 pub fn parse_file(file_path: &str) -> Vec<Entry> {
     println!("Initializing parser...");
@@ -52,7 +56,7 @@ fn chunk_sections<R: BufRead>(reader: R) -> Vec<Vec<String>> {
 }
 
 fn parse_entry(lines: &[String]) -> Entry {
-    let mut combo_buffer = Vec::with_capacity(20);
+    let mut combo_buffer = Vec::with_capacity(16);
 
     let mut gender = String::new();
     let mut entry_name = String::new();
@@ -100,11 +104,13 @@ fn try_parse_int(s: &str) -> Option<i32> {
     s.trim().parse::<i32>().ok()
 }
 
-fn intern_comp_name(name: &str) -> String {
-    // Could be further optimized with `phf` or `once_cell` interning
-    match name.to_ascii_lowercase().as_str() {
-        "hat" | "shoes" | "top" | "pants" | "armor" | "undercoat" | "accessories" | "mask"
-        | "upperskin" | "parachute" | "decal" | "ear" | "glasses" => name.to_string(),
-        _ => name.to_string(),
+fn intern_comp_name(name: &str) -> &'static str {
+    let lowered = name.to_ascii_lowercase();
+    if let Some(existing) = INTERNED_NAMES.get(&lowered) {
+        return *existing;
     }
+
+    let static_str: &'static str = Box::leak(lowered.clone().into_boxed_str());
+    INTERNED_NAMES.insert(lowered, static_str);
+    static_str
 }

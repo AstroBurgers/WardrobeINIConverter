@@ -1,7 +1,6 @@
-// structs.rs
 #[derive(Clone)]
 pub struct CompCombo {
-    pub comp_name: String,
+    pub comp_name: &'static str, // Interned string
     pub comp_id: i16,
     pub comp_tex: i8,
 }
@@ -9,7 +8,7 @@ pub struct CompCombo {
 impl Default for CompCombo {
     fn default() -> Self {
         Self {
-            comp_name: String::new(),
+            comp_name: "",
             comp_id: 0,
             comp_tex: 0,
         }

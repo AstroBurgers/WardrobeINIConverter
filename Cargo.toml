@@ -5,3 +5,5 @@ edition = "2024"
 
 [dependencies]
 rayon = "1.10.0"
+once_cell = "1.21.3"
+dashmap = "7.0.0-rc2"
